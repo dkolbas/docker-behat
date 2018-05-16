@@ -6,10 +6,11 @@ FROM fedora
 MAINTAINER Dan Kolbas <dkolbas@redhat.com>
 
 USER root
+
 RUN yum install -y \
       vim \
       curl \
-      php \
+      php
 
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
