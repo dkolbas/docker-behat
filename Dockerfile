@@ -7,7 +7,7 @@ MAINTAINER Dan Kolbas <dkolbas@redhat.com>
 
 USER root
 
-#RUN pecl install zip
+RUN pecl install zip
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 RUN mkdir /opt/cpdrupal-api-behat
