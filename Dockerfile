@@ -1,32 +1,16 @@
 # Docker - Customer Portal Drupal - API Behat tests
-#
+# d
 # VERSION       dev
 # Behat docker image for Drupal Customer Portal API
-FROM fedora
+FROM itapregistry.a1.vary.redhat.com/rhel7-platops-php55
 MAINTAINER Dan Kolbas <dkolbas@redhat.com>
+
+# Ben was the orginal owner of this, but sense has left the team.  Please direct questions to Dan first.
+#MAINTAINER Ben Pritchett <bjpritch@redhat.com>
 
 USER root
 
-# Required packages
-RUN yum install -y \
-      vim \
-      wget \
-      gcc \
-      gcc-c++ \
-      make \
-      python \
-      git \
-      openssl-devel \
-      freetype \
-      fontconfig \
-      libfreetype.so.6 \
-      libfontconfig.so.1 \ 
-      libstdc++.so.6 \
-      nodejs \ 
-      npm \ 
-      php \
-      bzip2
-
+#RUN pecl install zip
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 RUN mkdir /opt/cpdrupal-api-behat
@@ -41,3 +25,4 @@ ADD behat.yml /opt/cpdrupal-api-behat/behat.yml
 
 USER root
 WORKDIR /opt/cpdrupal-api-behat
+#RUN bin/behat --profile=qa
