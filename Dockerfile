@@ -2,15 +2,15 @@
 # d
 # VERSION       dev
 # Behat docker image for Drupal Customer Portal API
-FROM itapregistry.a1.vary.redhat.com/rhel7-platops-php55
+FROM fedora
 MAINTAINER Dan Kolbas <dkolbas@redhat.com>
 
-# Ben was the orginal owner of this, but sense has left the team.  Please direct questions to Dan first.
-#MAINTAINER Ben Pritchett <bjpritch@redhat.com>
-
 USER root
+RUN yum install -y \
+      vim \
+      curl \
+      php \
 
-#RUN pecl install zip
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 RUN mkdir /opt/cpdrupal-api-behat
