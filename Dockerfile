@@ -7,7 +7,7 @@ MAINTAINER Dan Kolbas <dkolbas@redhat.com>
 
 USER root
 
-RUN yum install -y \
+RUN dnf install -y \
       vim \
       curl \
       php \
@@ -26,6 +26,8 @@ ADD composer.json /opt/cpdrupal-api-behat/composer.json
 ENV PATH /root/.composer/vendor/bin:$PATH
 RUN cd /opt/cpdrupal-api-behat ; composer install ;
 RUN sed -i "s,;date.timezone =,date.timezone = \'America/New_York\'," /etc/php.ini
+RUN cd /opt/cpdrupal-api-behat
+RUN ls
 ADD features /opt/cpdrupal-api-behat/features
 ADD behat.yml /opt/cpdrupal-api-behat/behat.yml
 
