@@ -8,7 +8,7 @@ FROM php:7.0
 MAINTAINER Dan Kolbas <dkolbas@redhat.com>
 
 # Install necessary extensions for PHP.
-RUN apt-get update && apt-get install -y libmcrypt-dev libpq-dev libxml2 libxml2-dev openssl git
+RUN apt-get update && apt-get install -y apt-utils zlib1g-dev libmcrypt-dev libpq-dev libxml2 libxml2-dev openssl git
 
 # Install PHP extensions.
 RUN docker-php-ext-install zip
