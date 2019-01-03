@@ -12,6 +12,7 @@ RUN yum install -y \
       curl \
       php \
       git \
+      gzip \
       php-json
 
 RUN curl -sS https://getcomposer.org/installer | php
