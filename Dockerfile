@@ -1,38 +1,34 @@
 # Docker - Customer Portal Drupal - API Behat tests
-# dd
+#
 # VERSION       dev
 # Behat docker image for Drupal Customer Portal API
-FROM fedora
+#FROM itapregistry.a1.vary.redhat.com/rhel7-platops-php55
+#FROM reg.paas.redhat.com/rhel7-platops-php55
+FROM php:7.0
 MAINTAINER Dan Kolbas <dkolbas@redhat.com>
 
-USER root
+# Install necessary extensions for PHP.
+RUN apt-get update && apt-get install -y libmcrypt-dev libpq-dev libxml2 libxml2-dev openssl git
 
-RUN dnf install -y \
-      vim \
-      curl \
-      php \
-      git \
-      gzip \
-      zip \
-      unzip \
-      php-json
+# Install PHP extensions.
+RUN docker-php-ext-install zip
 
-RUN curl -sS https://getcomposer.org/installer | php
-RUN mv composer.phar /usr/local/bin/composer
-RUN mkdir /opt/cpdrupal-api-behat
+# Install composer.
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+ && php composer-setup.php --install-dir=/usr/bin --filename=composer \
+ && php -r "unlink('composer-setup.php');"
 
-ADD composer.json /opt/cpdrupal-api-behat/composer.json
-
+# Add composer bin path.
 ENV PATH /root/.composer/vendor/bin:$PATH
-RUN cd /opt/cpdrupal-api-behat ; composer install ;
-RUN sed -i "s,;date.timezone =,date.timezone = \'America/New_York\'," /etc/php.ini
-RUN cd /opt/
-RUN ls -al
-RUN cd /opt/cpdrupal-api-behat
-RUN ls -al
-ADD features /opt/cpdrupal-api-behat/features
-ADD behat.yml /opt/cpdrupal-api-behat/behat.yml
 
-USER root
-WORKDIR /opt/cpdrupal-api-behat
-#RUN bin/behat --profile=qa
+# Create target folder.
+RUN mkdir -p /opt/cpdrupal-api-behat
+
+# Copy the source code to the container.
+COPY . /opt/cpdrupal-api-behat/
+
+WORKDIR /opt/cpdrupal-api-behat/
+RUN composer install
+
+RUN sed -i "s,;date.timezone =,date.timezone = \'America/New_York\'," /usr/local/include/php/main/php_ini.h
+
