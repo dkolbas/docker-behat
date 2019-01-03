@@ -26,8 +26,10 @@ ADD composer.json /opt/cpdrupal-api-behat/composer.json
 ENV PATH /root/.composer/vendor/bin:$PATH
 RUN cd /opt/cpdrupal-api-behat ; composer install ;
 RUN sed -i "s,;date.timezone =,date.timezone = \'America/New_York\'," /etc/php.ini
+RUN cd /opt/
+RUN ls -al
 RUN cd /opt/cpdrupal-api-behat
-RUN ls
+RUN ls -al
 ADD features /opt/cpdrupal-api-behat/features
 ADD behat.yml /opt/cpdrupal-api-behat/behat.yml
 
